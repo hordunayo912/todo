@@ -75,9 +75,9 @@ class todoController extends Controller
     public function delete($id){
 
         $deletes = todo::find($id);
-         if ($deletes){
+         if ($delete){
 
-            $deletes->delete();
+            $delete->delete();
          }
     
          return redirect('/todoinfo')->with('delete','Task deleted successfully');
