@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Todo\CreateTodoRequest;
 use App\Models\todo;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -26,25 +27,21 @@ class todoController extends Controller
 
     }
 
-    public function create(Request $request): RedirectResponse{
+    public function create(CreateTodoRequest $request): RedirectResponse{
 
 
-        $request->validate([
-            'user' => 'required|string|max:255',
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'is_completed' => 'required|string|in:Not Completed,Completed',
-            'due_date' => 'nullable|date',
-        ]);
+        $data = $request->validated();
+        $data['users'] = $data['user'];
+        todo::create($data);
 
-        $task = new todo;
-        $task->users = $request->user;
-        $task->title = $request->title;
-        $task->description = $request->description;
-        $task->is_completed = $request->is_completed;
-        $task->due_date = $request->due_date;
+        // $task = new todo;
+        // $task->users = $request->user;
+        // $task->title = $request->title;
+        // $task->description = $request->description;
+        // $task->is_completed = $request->is_completed;
+        // $task->due_date = $request->due_date;
 
-        $task->save();
+        // $task->save();
         return redirect('/todoinfo')->with('success','Task submitted successfully');
       //  return redirect('/todo', compact('tasks'))->with('success','Task submitted successfully');
 

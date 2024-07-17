@@ -10,4 +10,6 @@ class todo extends Model
     use HasFactory;
 
     protected $table = 'tasks';
+
+    protected $guarded = ['id'];
 }
